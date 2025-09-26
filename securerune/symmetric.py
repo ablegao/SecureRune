@@ -100,6 +100,10 @@ class SymmetricCrypto:
         """
         Encrypt using DES (Data Encryption Standard).
         
+        ⚠️ WARNING: DES is cryptographically broken and should not be used 
+        for security purposes. This implementation is for legacy compatibility 
+        and educational purposes only.
+        
         Args:
             plaintext: Data to encrypt
             key: 8 bytes key
@@ -122,6 +126,10 @@ class SymmetricCrypto:
         """
         Decrypt using DES.
         
+        ⚠️ WARNING: DES is cryptographically broken and should not be used 
+        for security purposes. This implementation is for legacy compatibility 
+        and educational purposes only.
+        
         Args:
             ciphertext: Data to decrypt
             key: 8 bytes key
@@ -142,6 +150,9 @@ class SymmetricCrypto:
     def triple_des_encrypt(plaintext: bytes, key: bytes) -> Tuple[bytes, bytes]:
         """
         Encrypt using 3DES (Triple DES).
+        
+        ⚠️ WARNING: 3DES is deprecated and should not be used for new applications.
+        Use AES instead. This implementation is for legacy compatibility only.
         
         Args:
             plaintext: Data to encrypt
@@ -164,6 +175,9 @@ class SymmetricCrypto:
     def triple_des_decrypt(ciphertext: bytes, key: bytes, iv: bytes) -> bytes:
         """
         Decrypt using 3DES.
+        
+        ⚠️ WARNING: 3DES is deprecated and should not be used for new applications.
+        Use AES instead. This implementation is for legacy compatibility only.
         
         Args:
             ciphertext: Data to decrypt

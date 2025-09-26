@@ -15,6 +15,10 @@ class HashingAlgorithms:
         """
         Compute MD5 hash.
         
+        ⚠️ WARNING: MD5 is cryptographically broken and should not be used 
+        for security purposes. This implementation is for legacy compatibility 
+        and educational purposes only.
+        
         Args:
             data: Data to hash
             
@@ -27,6 +31,9 @@ class HashingAlgorithms:
     def sha1(data: bytes) -> bytes:
         """
         Compute SHA-1 hash.
+        
+        ⚠️ WARNING: SHA-1 is deprecated and should not be used for security 
+        purposes due to collision vulnerabilities. Use SHA-256 or higher.
         
         Args:
             data: Data to hash
