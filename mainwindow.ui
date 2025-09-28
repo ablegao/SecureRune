@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Secure Rune</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Encode/Decode</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QPlainTextEdit" name="encode_input_plaintext">
+            <property name="plainText">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Input</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="2" column="2">
+              <widget class="QRadioButton" name="code_radio_decimal">
+               <property name="text">
+                <string>Decimal</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="code_radio_base64">
+               <property name="sizeIncrement">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Base64</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QRadioButton" name="code_radio_url">
+               <property name="text">
+                <string>URL</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QRadioButton" name="code_radio_urlbase64">
+               <property name="text">
+                <string>UrlBase64</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QRadioButton" name="code_radio_base16">
+               <property name="text">
+                <string>Base16</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QRadioButton" name="code_radio_binary">
+               <property name="text">
+                <string>Binary</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QRadioButton" name="code_radio_qctal">
+               <property name="text">
+                <string>Octal</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QRadioButton" name="code_radio_base32">
+               <property name="text">
+                <string>Base32</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
+              <widget class="QRadioButton" name="code_radio_base36">
+               <property name="text">
+                <string>Base36</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QRadioButton" name="code_radio_base58">
+               <property name="text">
+                <string>Base58</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="6">
+              <widget class="QRadioButton" name="code_radio_base62">
+               <property name="text">
+                <string>Base62</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="7">
+              <widget class="QRadioButton" name="code_radio_base85">
+               <property name="text">
+                <string>Base85</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="8">
+              <widget class="QRadioButton" name="code_radio_base91">
+               <property name="text">
+                <string>Base91</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="4">
+              <widget class="QRadioButton" name="code_radio_escape">
+               <property name="text">
+                <string>Escape</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Custom Alphabet</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="encode_custom_alphabet"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushbutton_reset_customAlphabet">
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QRadioButton" name="encodeTypeA">
+               <property name="text">
+                <string>Encode</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="encodeTypeB">
+               <property name="text">
+                <string>Decode</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="code_enter">
+               <property name="text">
+                <string>Enter</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="encode_output_plaintext">
+            <property name="plainText">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Output</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>HEX</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Symmetric Encryption</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Asymmetric Encryption</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>PBE Ciphers</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
