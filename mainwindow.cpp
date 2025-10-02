@@ -20,6 +20,9 @@ MainWindow::MainWindow(
     hexencode["Raw"] = [](const QString &in) -> QString {
         return in;
     };
+    hexdecode["Raw"] = [](const QString &in) -> SecByteBlock {
+        return SecByteBlock(reinterpret_cast<const byte*>(in.toStdString().data()), in.toStdString().size());
+    };
 
     hexencode["Base64"] = [](const QString &in) -> QString {
         std::string output;
@@ -71,6 +74,9 @@ MainWindow::MainWindow(
         return SecByteBlock(reinterpret_cast<const byte*>(output.data()), output.size());
     };
 
+    hexdecode["Hex"] = [](const QString &in) -> SecByteBlock {
+        return SecByteBlock(reinterpret_cast<const byte*>(in.toStdString().data()), in.toStdString().size());
+    };
 
     init_symmetric();
 
@@ -83,14 +89,15 @@ MainWindow::~MainWindow()
 }
 
 
+// 在 mainwindow.h 里添加（示例）：
+
+
+// 保留原来的简便函数（不改动现有使用）
 void MainWindow::showLogs(QString method , QString info)
 {
-    //  添加日期时间
     QDateTime currentDateTime = QDateTime::currentDateTime();
     QString dateTimeString = currentDateTime.toString("yyyy-MM-dd HH:mm:ss");
     ui->outlogs->appendPlainText(QString("[%1][%2] %3").arg(dateTimeString).arg(method).arg(info));
     ui->outlogs->verticalScrollBar()->setValue(ui->outlogs->verticalScrollBar()->maximum());
-
-
 }
 

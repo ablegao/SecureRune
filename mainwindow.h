@@ -34,6 +34,8 @@ private slots:
 
     void on_btn_symmetric_run_released();
 
+    void on_s_iv_random_released();
+
 private:
     Ui::MainWindow *ui;
 
@@ -59,15 +61,16 @@ private:
     // Symmetric
 
     void init_symmetric();
-    void symmetric_aes_action();
     QStringList symmetricChiphers;
     QStringList symmetricModes;
     QButtonGroup *symmetricOutputFormatGroup;
+    QButtonGroup *symmetricIVFormatGroup;
+    QButtonGroup *symmetricKeyFormatGroup;
     // QStringList symmetricPaddings;
     QMap<QString,StreamTransformationFilter::BlockPaddingScheme> symmetricPaddingMap;
 
     // 定义一个名为 symmetricModesHandler 的QMap ,保存 类似 AES_CBC 为key , 值为一个函数指针 ,传参为 QString key , QString iv  ,返回值 SecByteBlock
-    QMap<QString, std::function<std::string(const std::string &, const SecByteBlock &, const SecByteBlock &, StreamTransformationFilter::BlockPaddingScheme)>> symmetricModesEncodeHandler;
+    QMap<QString, std::function<std::string(const std::string &, const SecByteBlock &, const SecByteBlock & , StreamTransformationFilter::BlockPaddingScheme)>> symmetricModesEncodeHandler;
     // void symmetric_aes_cbc();
 
 };

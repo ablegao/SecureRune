@@ -5,7 +5,8 @@
 #include "modes.h"
 #include "cryptopp/aes.h"
 #include "cryptopp/filters.h"
-
+#include "cryptopp/osrng.h"
+#include "cryptopp/secblock.h"
 using namespace CryptoPP;
 
 
@@ -13,6 +14,8 @@ using namespace CryptoPP;
 template <typename Encryptor, bool UsesIV>
 static std::string aes_encrypt_helper(const std::string &in, const SecByteBlock &key, const SecByteBlock &iv, StreamTransformationFilter::BlockPaddingScheme padding = StreamTransformationFilter::PKCS_PADDING)
 {
+    qDebug() << "XXXXX --- " << iv.size() ;
+
     if (key.size() != 16 && key.size() != 24 && key.size() != 32) {
         throw std::runtime_error("Invalid AES key size. Must be 16, 24, or 32 bytes.");
     }
@@ -142,6 +145,7 @@ void MainWindow::init_symmetric()
     symmetricKeyFormatGroup->addButton(ui->s_key_type_raw);
     symmetricKeyFormatGroup->addButton(ui->s_key_type_base64);
     symmetricKeyFormatGroup->addButton(ui->s_key_type_hex);
+    
     symmetricIVFormatGroup = new QButtonGroup(this);
     symmetricIVFormatGroup->addButton(ui->s_iv_type_raw);
     symmetricIVFormatGroup->addButton(ui->s_iv_type_base64);
@@ -162,6 +166,8 @@ void MainWindow::init_symmetric()
     symmetricModesEncodeHandler["AES_OFB"] = [](const std::string &in, const SecByteBlock &key, const SecByteBlock &iv, StreamTransformationFilter::BlockPaddingScheme padding) -> std::string {
         return aes_encrypt_helper<OFB_Mode<AES>::Encryption, true>(in, key, iv, padding);
     };
+
+
     symmetricModesEncodeHandler["AES_CTR"] = [](const std::string &in, const SecByteBlock &key, const SecByteBlock &iv, StreamTransformationFilter::BlockPaddingScheme padding) -> std::string {
         return aes_encrypt_helper<CTR_Mode<AES>::Encryption, true>(in, key, iv, padding);
     };
@@ -193,51 +199,62 @@ void MainWindow::on_btn_symmetric_run_released()
     // case "AES":
     //     break;
     // }
-    // try{
+    try{
         qDebug() << "symmetric_aes_action ";
         // QString mode = ui->s_mode->currentText();
         QString mode = QString("%1_%2").arg(ui->s_chipher->currentText(), ui->s_mode->currentText());
 
 
         if (symmetricModesEncodeHandler.contains(mode)) {
-            // QString key = //ui->symmetric_key->toPlainText();
-            SecByteBlock key = hexdecode[symmetricKeyFormatGroup->checkedButton()->text()](ui->symmetric_key->toPlainText());
-            SecByteBlock iv = hexdecode[symmetricIVFormatGroup->checkedButton()->text()](ui->symmetric_iv->toPlainText());
+            // Safely resolve decoder functions (fall back to "Hex" if the selected button text isn't present)
+            QString keyFmt = symmetricKeyFormatGroup->checkedButton()->text();
+            QString ivFmt = symmetricIVFormatGroup->checkedButton()->text();
+            auto keyDecoder = hexdecode.contains(keyFmt) ? hexdecode[keyFmt] : hexdecode.value("Hex");
+            auto ivDecoder = hexdecode.contains(ivFmt) ? hexdecode[ivFmt] : hexdecode.value("Hex");
+
+            SecByteBlock key = keyDecoder(ui->symmetric_key->toPlainText());
+            SecByteBlock iv = ivDecoder(ui->symmetric_iv->toPlainText());
+
+            qDebug() << "Key size:" << key.size() << "IV size:" << iv.size();
+
+            // Basic validation
+            if (key.size() != 16 && key.size() != 24 && key.size() != 32) {
+                throw std::runtime_error("Invalid AES key size. Must be 16, 24, or 32 bytes.");
+            }
+            // Only require IV for non-ECB modes
+            if (ui->s_mode->currentText() != "ECB" && iv.size() != AES::BLOCKSIZE) {
+                throw std::runtime_error("Invalid IV size for selected mode. Must be 16 bytes for AES modes that use an IV.");
+            }
+
             QString input = ui->symmetric_input->toPlainText();
             QString paddingStr = ui->s_padding->currentText();
             auto padding = symmetricPaddingMap.value(paddingStr, StreamTransformationFilter::PKCS_PADDING);
 
-            try {
-                std::string cipher = symmetricModesEncodeHandler[mode](input.toStdString(), key, iv, padding);
-                // ui->symmetric_output->setPlainText(QString::fromStdString(cipher));
-                // qDebug() << "Encryption successful." << cipher.size() << "bytes produced.";
-                // 根据输出格式选择进行编码
-                ui->symmetric_output->setPlainText(hexencode[symmetricOutputFormatGroup->checkedButton()->text()](QString::fromStdString(cipher)));
+
+            std::string cipher = symmetricModesEncodeHandler[mode](input.toStdString(), key, iv, padding);
+            // 根据输出格式选择进行编码
+            auto outFmt = symmetricOutputFormatGroup->checkedButton()->text();
+            auto outEncoder = hexencode.contains(outFmt) ? hexencode[outFmt] : hexencode.value("Raw");
+            ui->symmetric_output->setPlainText(outEncoder(QString::fromStdString(cipher)));
 
 
-            } catch (const std::exception &e) {
-                qDebug() << "Error during encryption: " << e.what();
-                ui->symmetric_output->setPlainText(QString("Error: %1").arg(e.what()));
-            }
         } else {
             qDebug() << "No handler for mode: " << mode;
         }
-    // } catch (const std::exception &e) {
-    //     qDebug() << "Error: " << e.what();
-    // }
+    } catch (const std::exception &e) {
+        qDebug() << "Error: " << e.what();
+    } catch (...) {
+        qDebug() << "Unknown error occurred.";
+    }
 }
 
+void MainWindow::on_s_iv_random_released() {
+    // 生成一个随机的 16 字节的 iv
+    SecByteBlock iv(AES::BLOCKSIZE);
+    AutoSeededRandomPool prng;
+    prng.GenerateBlock(iv, iv.size());
+    // 转为 hex 显示在 ui->symmetric_iv
+    ui->symmetric_iv->setPlainText(hexencode["Hex"](QString::fromStdString(std::string(reinterpret_cast<const char*>(iv.data()), iv.size()))));
+    ui->s_iv_type_hex->setChecked(true);
 
-void MainWindow::symmetric_aes_action()
-{
-    
 }
-
-
-// void MainWindow::symmetric_aes_cbc()
-// {
-//     CBC_Mode<AES>::Encryption encryptor;
-//     new StreamTransformationFilter(encryptor );
-
-// }
-
