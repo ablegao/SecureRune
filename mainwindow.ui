@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>645</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -73,10 +73,17 @@
              <string/>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="2" column="2">
-              <widget class="QRadioButton" name="code_radio_decimal">
+             <item row="0" column="7">
+              <widget class="QRadioButton" name="code_radio_base85">
                <property name="text">
-                <string>Decimal</string>
+                <string>Base85</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="8">
+              <widget class="QRadioButton" name="code_radio_base91">
+               <property name="text">
+                <string>Base91</string>
                </property>
               </widget>
              </item>
@@ -99,13 +106,6 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QRadioButton" name="code_radio_url">
-               <property name="text">
-                <string>URL</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="1">
               <widget class="QRadioButton" name="code_radio_urlbase64">
                <property name="text">
@@ -113,73 +113,73 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="2">
-              <widget class="QRadioButton" name="code_radio_base16">
-               <property name="text">
-                <string>Base16</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
+             <item row="1" column="1">
               <widget class="QRadioButton" name="code_radio_binary">
                <property name="text">
                 <string>Binary</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="3">
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="code_radio_hex">
+               <property name="text">
+                <string>Hex</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QRadioButton" name="code_radio_url">
+               <property name="text">
+                <string>URL</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QRadioButton" name="code_radio_decimal">
+               <property name="text">
+                <string>Decimal</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="4">
               <widget class="QRadioButton" name="code_radio_qctal">
                <property name="text">
                 <string>Octal</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="3">
+             <item row="1" column="5">
+              <widget class="QRadioButton" name="code_radio_escape">
+               <property name="text">
+                <string>Escape</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
               <widget class="QRadioButton" name="code_radio_base32">
                <property name="text">
                 <string>Base32</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="4">
+             <item row="0" column="3">
               <widget class="QRadioButton" name="code_radio_base36">
                <property name="text">
                 <string>Base36</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="5">
+             <item row="0" column="4">
               <widget class="QRadioButton" name="code_radio_base58">
                <property name="text">
                 <string>Base58</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="6">
+             <item row="0" column="5">
               <widget class="QRadioButton" name="code_radio_base62">
                <property name="text">
                 <string>Base62</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="7">
-              <widget class="QRadioButton" name="code_radio_base85">
-               <property name="text">
-                <string>Base85</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="8">
-              <widget class="QRadioButton" name="code_radio_base91">
-               <property name="text">
-                <string>Base91</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="4">
-              <widget class="QRadioButton" name="code_radio_escape">
-               <property name="text">
-                <string>Escape</string>
                </property>
               </widget>
              </item>
@@ -236,7 +236,14 @@
              <item>
               <widget class="QPushButton" name="code_enter">
                <property name="text">
-                <string>Enter</string>
+                <string>Run</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="encode_replace_method">
+               <property name="text">
+                <string>↑</string>
                </property>
               </widget>
              </item>
@@ -245,6 +252,9 @@
           </item>
           <item>
            <widget class="QPlainTextEdit" name="encode_output_plaintext">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
             <property name="plainText">
              <string/>
             </property>
@@ -264,12 +274,328 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Symmetric Encryption</string>
+        <string>Symmetric</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPlainTextEdit" name="symmetric_input"/>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QComboBox" name="s_chipher"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Cipher</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="s_mode"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Model</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="s_padding"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Padding</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Key:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="symmetric_key"/>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="s_key_type_raw">
+                <property name="text">
+                 <string>Raw</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_key_type_base64">
+                <property name="text">
+                 <string>Base64</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_key_type_hex">
+                <property name="text">
+                 <string>Hex</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>IV</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="symmetric_iv"/>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QPushButton" name="s_iv_random">
+                <property name="text">
+                 <string>Random</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_iv_type_raw">
+                <property name="text">
+                 <string>Raw</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_iv_type_base64">
+                <property name="text">
+                 <string>Base64</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_iv_type_hex">
+                <property name="text">
+                 <string>Hex</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_7">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="s_method_encryption">
+             <property name="text">
+              <string>Encryption</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="s_method_decryption">
+             <property name="text">
+              <string>Decryption</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_symmetric_run">
+             <property name="text">
+              <string>Run</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_symmetric_replace">
+             <property name="text">
+              <string>↑</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_8">
+          <property name="title">
+           <string>Output</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="groupBox_9">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="s_output_type_raw">
+                <property name="text">
+                 <string>Raw</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_output_type_hex">
+                <property name="text">
+                 <string>Hex</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_output_type_base64">
+                <property name="text">
+                 <string>Base64</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="s_output_type_base64url">
+                <property name="text">
+                 <string>Base64Url</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="symmetric_output"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>Asymmetric Encryption</string>
+        <string>Asymmetric</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_5">
@@ -277,6 +603,46 @@
         <string>PBE Ciphers</string>
        </attribute>
       </widget>
+      <widget class="QWidget" name="tab_6">
+       <attribute name="title">
+        <string>About</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTextEdit" name="textEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Logs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPlainTextEdit" name="outlogs">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
    </layout>
