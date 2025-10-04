@@ -5,8 +5,17 @@
 #include "./ui_mainwindow.h"
 #include "cryptopp/base64.h"
 #include "cryptopp/hex.h"
+#include "secblock.h"
 
 using namespace CryptoPP;
+
+// definition of static instance pointer
+MainWindow *MainWindow::s_instance = nullptr;
+
+MainWindow *MainWindow::instance()
+{
+    return s_instance;
+}
 MainWindow::MainWindow(
     QWidget *parent)
     : QMainWindow(parent)
@@ -15,67 +24,66 @@ MainWindow::MainWindow(
     , encodeCodeMethodGroup(new QButtonGroup)
 {
     ui->setupUi(this);
+    // register instance for global access
+    MainWindow::s_instance = this;
     initEncodeDecode();
 
-    hexencode["Raw"] = [](const QString &in) -> QString {
-        return in;
-    };
-    hexdecode["Raw"] = [](const QString &in) -> SecByteBlock {
-        return SecByteBlock(reinterpret_cast<const byte*>(in.toStdString().data()), in.toStdString().size());
+    hexencode["Raw"] = [](const SecByteBlock &in) -> QString {
+        // Treat the bytes as UTF-8 text when using Raw -> display as QString
+        return QString::fromUtf8(reinterpret_cast<const char*>(in.data()), static_cast<int>(in.size()));
     };
 
-    hexencode["Base64"] = [](const QString &in) -> QString {
+    hexdecode["Raw"] = [](const QString &in) -> SecByteBlock {
+        QByteArray ba = in.toUtf8();
+        return SecByteBlock(reinterpret_cast<const byte*>(ba.constData()), static_cast<size_t>(ba.size()));
+    };
+
+    hexencode["Base64"] = [](const SecByteBlock &in) -> QString {
         std::string output;
-        StringSource ss(in.toStdString().c_str(),
+        StringSource ss(in.data(), in.size(),
                         true,
                         new Base64Encoder(new StringSink(output),
-                                          false // 不插入换行符
+                                          false // don't insert line breaks
                                           ));
 
         return QString::fromStdString(output);
     };
 
     hexdecode["Base64"] = [](const QString &in) -> SecByteBlock {
+        std::string input = in.toStdString();
         std::string output;
-        StringSource ss(in.toStdString().c_str(), true, new Base64Decoder(new StringSink(output)));
+        StringSource ss(input, true, new Base64Decoder(new StringSink(output)));
         return SecByteBlock(reinterpret_cast<const byte*>(output.data()), output.size());
     };
 
-    hexencode["Base64Url"] = [](const QString &in) -> QString {
+    hexencode["Base64Url"] = [](const SecByteBlock &in) -> QString {
         std::string output;
-        StringSource ss(in.toStdString().c_str(),
+        StringSource ss(in.data(), in.size(),
                         true,
                         new Base64URLEncoder(new StringSink(output),
-                                          false // 不插入换行符
+                                          false // don't insert line breaks
                                           ));
 
         return QString::fromStdString(output);
     };
     
     hexdecode["Base64Url"] = [](const QString &in) -> SecByteBlock {
+        std::string input = in.toStdString();
         std::string output;
-        StringSource ss(in.toStdString().c_str(), true, new Base64URLDecoder(new StringSink(output)));
+        StringSource ss(input, true, new Base64URLDecoder(new StringSink(output)));
         return SecByteBlock(reinterpret_cast<const byte*>(output.data()), output.size());
     };
 
-    hexencode["Hex"] = [](const QString &in) -> QString {
+    hexencode["Hex"] = [](const SecByteBlock &in) -> QString {
         std::string output;
-        StringSource ss(in.toStdString().c_str(),
-                        true,
-                        new HexEncoder(new StringSink(output),
-                                       false // 不插入换行符
-                                       ));
-
+        StringSource ss(in.data(), in.size(), true, new HexEncoder(new StringSink(output), false));
         return QString::fromStdString(output);
     };
     hexdecode["Hex"] =[](const QString &in) -> SecByteBlock {
+        std::string input = in.toStdString();
         std::string output;
-        StringSource ss(in.toStdString().c_str(), true, new HexDecoder(new StringSink(output)));
+        StringSource ss(input, true, new HexDecoder(new StringSink(output)));
         return SecByteBlock(reinterpret_cast<const byte*>(output.data()), output.size());
-    };
-
-    hexdecode["Hex"] = [](const QString &in) -> SecByteBlock {
-        return SecByteBlock(reinterpret_cast<const byte*>(in.toStdString().data()), in.toStdString().size());
     };
 
     init_symmetric();
@@ -85,6 +93,8 @@ MainWindow::MainWindow(
 
 MainWindow::~MainWindow()
 {
+    // unregister instance
+    MainWindow::s_instance = nullptr;
     delete ui;
 }
 

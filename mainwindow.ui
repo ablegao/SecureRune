@@ -21,6 +21,20 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Logs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPlainTextEdit" name="outlogs">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
@@ -290,6 +304,58 @@
          <number>0</number>
         </property>
         <item>
+         <widget class="QGroupBox" name="groupBox_10">
+          <property name="title">
+           <string>Input Format</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="s_input_fmt_raw">
+             <property name="text">
+              <string>Raw</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="s_input_fmt_hex">
+             <property name="text">
+              <string>Hex</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="s_input_fmt_base64">
+             <property name="text">
+              <string>Base64</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="s_input_fmt_base64url">
+             <property name="text">
+              <string>Base64Url</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QPlainTextEdit" name="symmetric_input"/>
         </item>
         <item>
@@ -518,7 +584,7 @@
         <item>
          <widget class="QGroupBox" name="groupBox_8">
           <property name="title">
-           <string>Output</string>
+           <string>Output Format</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <property name="leftMargin">
@@ -632,18 +698,17 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Logs</string>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPlainTextEdit" name="outlogs">
-      <property name="readOnly">
-       <bool>true</bool>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
       </property>
-     </widget>
+     </spacer>
     </item>
    </layout>
   </widget>

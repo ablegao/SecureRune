@@ -3,6 +3,7 @@
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qmap.h>
+#include <QtWidgets/qbuttongroup.h>
 #include "cryptopp/filters.h"
 #include <QMainWindow>
 #include <QtWidgets>
@@ -24,6 +25,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // Access to the single MainWindow instance for global message forwarding
+    static MainWindow *instance();
+
+public slots:
+    // Exposed as a slot so it can be invoked from the global Qt message handler
+    void showLogs(QString method , QString info);
+
 private slots:
     void on_encode_input_plaintext_textChanged();
     void on_encodetype_radio_changed();
@@ -38,11 +46,14 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    // static instance pointer for global access
+    static MainWindow *s_instance;
 
-    void showLogs(QString method , QString info);
-
-    QMap<QString, std::function<CryptoPP::SecByteBlock(const QString &)>> hexdecode;
-    QMap<QString, std::function<QString(const QString &)>> hexencode;
+    // Binary-safe encode/decode handlers.
+    // hexencode: takes binary input and returns an encoded (text) QString.
+    // hexdecode: takes encoded QString and returns a binary SecByteBlock.
+    QMap<QString, std::function<QString(const SecByteBlock &)>> hexencode;
+    QMap<QString, std::function<SecByteBlock(const QString &)>> hexdecode;
 
     // encode/decode
     QButtonGroup *encodeTypeGroup;
@@ -63,6 +74,7 @@ private:
     void init_symmetric();
     QStringList symmetricChiphers;
     QStringList symmetricModes;
+    QButtonGroup *symmetricInputFormatGroup;
     QButtonGroup *symmetricOutputFormatGroup;
     QButtonGroup *symmetricIVFormatGroup;
     QButtonGroup *symmetricKeyFormatGroup;

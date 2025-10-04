@@ -1,3 +1,4 @@
+#include "base64.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QtWidgets/qbuttongroup.h>
@@ -7,6 +8,7 @@
 #include "cryptopp/filters.h"
 #include "cryptopp/osrng.h"
 #include "cryptopp/secblock.h"
+#include "cryptopp/hex.h"
 using namespace CryptoPP;
 
 
@@ -134,6 +136,11 @@ void MainWindow::init_symmetric()
     }
 
     // ensure the QButtonGroup is constructed before use
+    symmetricInputFormatGroup= new QButtonGroup(this);
+    symmetricInputFormatGroup->addButton(ui->s_input_fmt_raw);
+    symmetricInputFormatGroup->addButton(ui->s_input_fmt_hex);
+    symmetricInputFormatGroup->addButton(ui->s_input_fmt_base64);
+    symmetricInputFormatGroup->addButton(ui->s_input_fmt_base64url);
     
     symmetricOutputFormatGroup = new QButtonGroup(this);
     symmetricOutputFormatGroup->addButton(ui->s_output_type_raw);
@@ -209,14 +216,17 @@ void MainWindow::on_btn_symmetric_run_released()
             // Safely resolve decoder functions (fall back to "Hex" if the selected button text isn't present)
             QString keyFmt = symmetricKeyFormatGroup->checkedButton()->text();
             QString ivFmt = symmetricIVFormatGroup->checkedButton()->text();
+
+
             auto keyDecoder = hexdecode.contains(keyFmt) ? hexdecode[keyFmt] : hexdecode.value("Hex");
             auto ivDecoder = hexdecode.contains(ivFmt) ? hexdecode[ivFmt] : hexdecode.value("Hex");
+            QString key_s = ui->symmetric_key->toPlainText();
+            QString iv_s = ui->symmetric_iv->toPlainText();
 
-            SecByteBlock key = keyDecoder(ui->symmetric_key->toPlainText());
-            SecByteBlock iv = ivDecoder(ui->symmetric_iv->toPlainText());
-
-            qDebug() << "Key size:" << key.size() << "IV size:" << iv.size();
-
+            SecByteBlock key = keyDecoder(key_s);
+            SecByteBlock iv = ivDecoder(iv_s);
+            qDebug() << " IV format: " << ivFmt << " IV source size " << ui->symmetric_iv->toPlainText().size() << " decoded size " << iv.size();
+            qDebug() << " Key format: " << keyFmt << " Key source size " << ui->symmetric_key->toPlainText().size() << " decoded size " << key.size();
             // Basic validation
             if (key.size() != 16 && key.size() != 24 && key.size() != 32) {
                 throw std::runtime_error("Invalid AES key size. Must be 16, 24, or 32 bytes.");
@@ -235,7 +245,9 @@ void MainWindow::on_btn_symmetric_run_released()
             // 根据输出格式选择进行编码
             auto outFmt = symmetricOutputFormatGroup->checkedButton()->text();
             auto outEncoder = hexencode.contains(outFmt) ? hexencode[outFmt] : hexencode.value("Raw");
-            ui->symmetric_output->setPlainText(outEncoder(QString::fromStdString(cipher)));
+            // outEncoder expects SecByteBlock input now
+            SecByteBlock cipher_block(reinterpret_cast<const byte*>(cipher.data()), cipher.size());
+            ui->symmetric_output->setPlainText(outEncoder(cipher_block));
 
 
         } else {
@@ -254,7 +266,16 @@ void MainWindow::on_s_iv_random_released() {
     AutoSeededRandomPool prng;
     prng.GenerateBlock(iv, iv.size());
     // 转为 hex 显示在 ui->symmetric_iv
-    ui->symmetric_iv->setPlainText(hexencode["Hex"](QString::fromStdString(std::string(reinterpret_cast<const char*>(iv.data()), iv.size()))));
+    std::string output;
+    StringSource ss(iv,iv.size(),
+                    true,
+                    new HexEncoder(new StringSink(output),
+                                   false // 不插入换行符
+                                   ));
+    // hexencode[symmetricOutputFormatGroup->checkedButton()->text()](QString::fromStdString(std::string(reinterpret_cast<const char*>(iv.data()), iv.size()))).toStdString();
+    qDebug() << " Random IV size " << iv.size() << " output size " << output.size();
+
+    ui->symmetric_iv->setPlainText(QString::fromStdString(output));
     ui->s_iv_type_hex->setChecked(true);
 
 }
