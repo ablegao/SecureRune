@@ -1,6 +1,5 @@
-#include "base64.h"
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QtWidgets/qbuttongroup.h>
 #include <string>
 #include "modes.h"
@@ -10,6 +9,7 @@
 #include "cryptopp/secblock.h"
 #include "cryptopp/hex.h"
 using namespace CryptoPP;
+
 
 
 // Generic helper: Encrypt using an Encryptor type. If UsesIV is true, call SetKeyWithIV, else SetKey.
@@ -143,20 +143,20 @@ void MainWindow::init_symmetric()
     symmetricInputFormatGroup->addButton(ui->s_input_fmt_base64url);
     
     symmetricOutputFormatGroup = new QButtonGroup(this);
-    symmetricOutputFormatGroup->addButton(ui->s_output_type_raw);
-    symmetricOutputFormatGroup->addButton(ui->s_output_type_hex);
-    symmetricOutputFormatGroup->addButton(ui->s_output_type_base64);
-    symmetricOutputFormatGroup->addButton(ui->s_output_type_base64url);
+    symmetricOutputFormatGroup->addButton(ui->s_output_fmt_raw);
+    symmetricOutputFormatGroup->addButton(ui->s_output_fmt_hex);
+    symmetricOutputFormatGroup->addButton(ui->s_output_fmt_base64);
+    symmetricOutputFormatGroup->addButton(ui->s_output_fmt_base64url);
 
     symmetricKeyFormatGroup = new QButtonGroup(this);
-    symmetricKeyFormatGroup->addButton(ui->s_key_type_raw);
-    symmetricKeyFormatGroup->addButton(ui->s_key_type_base64);
-    symmetricKeyFormatGroup->addButton(ui->s_key_type_hex);
+    symmetricKeyFormatGroup->addButton(ui->s_key_fmt_raw);
+    symmetricKeyFormatGroup->addButton(ui->s_key_fmt_base64);
+    symmetricKeyFormatGroup->addButton(ui->s_key_fmt_hex);
     
     symmetricIVFormatGroup = new QButtonGroup(this);
-    symmetricIVFormatGroup->addButton(ui->s_iv_type_raw);
-    symmetricIVFormatGroup->addButton(ui->s_iv_type_base64);
-    symmetricIVFormatGroup->addButton(ui->s_iv_type_hex);
+    symmetricIVFormatGroup->addButton(ui->s_iv_fmt_raw);
+    symmetricIVFormatGroup->addButton(ui->s_iv_fmt_base64);
+    symmetricIVFormatGroup->addButton(ui->s_iv_fmt_hex);
 
     // symmetricChiphersHandler["AES"] = [this](){ symmetric_aes_action(); };
 
@@ -276,6 +276,6 @@ void MainWindow::on_s_iv_random_released() {
     qDebug() << " Random IV size " << iv.size() << " output size " << output.size();
 
     ui->symmetric_iv->setPlainText(QString::fromStdString(output));
-    ui->s_iv_type_hex->setChecked(true);
+    ui->s_iv_fmt_hex->setChecked(true);
 
 }

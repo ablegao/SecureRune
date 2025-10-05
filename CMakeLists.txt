@@ -8,7 +8,9 @@ project(
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_PREFIX_PATH "/Users/ablegao/Qt/6.9.3/macos/lib/cmake/Qt6")
+  # Default Qt install location for the original developer; overridden by
+  # -DCMAKE_PREFIX_PATH passed from the build system (e.g. VS Code settings)
+set(CMAKE_PREFIX_PATH "/Users/ablegao/Qt/6.9.3/macos/lib/cmake")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PkgConfig REQUIRED)

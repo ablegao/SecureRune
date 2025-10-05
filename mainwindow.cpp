@@ -2,7 +2,7 @@
 #include <QtWidgets/qbuttongroup.h>
 #include <QtWidgets/qpushbutton.h>
 #include <QtWidgets/qradiobutton.h>
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "cryptopp/base64.h"
 #include "cryptopp/hex.h"
 #include "secblock.h"

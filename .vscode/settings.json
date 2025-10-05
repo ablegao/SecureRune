@@ -1,0 +1,28 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug",
+    "cmake.configureOnOpen": true,
+    // Ensure pkg-config can find installed .pc files during configure/build
+    // Pass CMAKE_PREFIX_PATH to CMake via configure args so VS Code controls Qt location
+    "cmake.configureArgs": [
+        "-DCMAKE_PREFIX_PATH=${userHome}/Qt/6.9.3/macos/lib/cmake",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" 
+    ],
+    "C_Cpp.default.compileCommands": [
+        "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/compile_commands.json"
+    ],
+    "C_Cpp.default.includePath": [
+        "${default}",
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/cryptopp/**",
+        "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune_autogen/**",
+        "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune_autogen/include/**",
+    ],
+    "files.associations": {
+        "*.dbclient-js": "javascript",
+        "qtwidgets": "cpp"
+    },
+    "clangd.checkUpdates": true,
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug"
+    ]
+}

@@ -444,7 +444,7 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QRadioButton" name="s_key_type_raw">
+               <widget class="QRadioButton" name="s_key_fmt_raw">
                 <property name="text">
                  <string>Raw</string>
                 </property>
@@ -454,7 +454,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_key_type_base64">
+               <widget class="QRadioButton" name="s_key_fmt_base64">
                 <property name="text">
                  <string>Base64</string>
                 </property>
@@ -464,7 +464,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_key_type_hex">
+               <widget class="QRadioButton" name="s_key_fmt_hex">
                 <property name="text">
                  <string>Hex</string>
                 </property>
@@ -497,7 +497,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_iv_type_raw">
+               <widget class="QRadioButton" name="s_iv_fmt_raw">
                 <property name="text">
                  <string>Raw</string>
                 </property>
@@ -507,7 +507,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_iv_type_base64">
+               <widget class="QRadioButton" name="s_iv_fmt_base64">
                 <property name="text">
                  <string>Base64</string>
                 </property>
@@ -517,7 +517,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_iv_type_hex">
+               <widget class="QRadioButton" name="s_iv_fmt_hex">
                 <property name="text">
                  <string>Hex</string>
                 </property>
@@ -618,7 +618,7 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QRadioButton" name="s_output_type_raw">
+               <widget class="QRadioButton" name="s_output_fmt_raw">
                 <property name="text">
                  <string>Raw</string>
                 </property>
@@ -628,21 +628,21 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_output_type_hex">
+               <widget class="QRadioButton" name="s_output_fmt_hex">
                 <property name="text">
                  <string>Hex</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_output_type_base64">
+               <widget class="QRadioButton" name="s_output_fmt_base64">
                 <property name="text">
                  <string>Base64</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="s_output_type_base64url">
+               <widget class="QRadioButton" name="s_output_fmt_base64url">
                 <property name="text">
                  <string>Base64Url</string>
                 </property>

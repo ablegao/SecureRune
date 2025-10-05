@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake: Configure",
+      "type": "shell",
+      "command": "cmake -S ${workspaceFolder} -B ${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug",
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "CMake: Build",
+      "type": "shell",
+      "command": "cmake --build ${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug --config Debug -- -j",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": { "reveal": "always" },
+      "dependsOn": ["CMake: Configure"]
+    },
+    {
+      "label": "Run: Open .app (Finder)",
+      "type": "shell",
+      "command": "open ${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune.app",
+      "presentation": { "reveal": "silent" }
+    },
+    {
+      "label": "Run: Exec in Terminal",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune.app/Contents/MacOS/SecureRune",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "macdeployqt: bundle Qt (optional)",
+      "type": "shell",
+      "command": "${env:HOME}/Qt/6.9.3/macos/bin/macdeployqt ${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune.app",
+      "presentation": { "reveal": "always" }
+    }
+  ]
+}

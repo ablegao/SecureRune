@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CodeLLDB: Launch SecureRune",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune.app/Contents/MacOS/SecureRune",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "terminal": "integrated",
+            "preLaunchTask": "CMake: Build"
+        },
+        {
+            "name": "cppdbg: Attach to SecureRune",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/build/Qt_6_9_3_for_macOS-vscode-Debug/SecureRune.app/Contents/MacOS/SecureRune",
+            "processId": "${command:pickProcess}",
+            "MIMode": "lldb",
+            "visualizerFile": "/Users/ablegao/Library/Application Support/Code/User/workspaceStorage/d87db5ea35e0c2baa9d7b9cbfb056d5c/tonka3000.qtvsctools/qt.natvis.xml"
+        }
+    ]
+}
